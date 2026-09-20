@@ -1,0 +1,25 @@
+:root {
+  /* Backgrounds: lightest to darkest */
+  --bg1: #FAF7F5;   /* main slide */
+  --bg2: #F0EAEE;   /* cards, panels */
+  --bg3: #E2D9DF;   /* raised elements, borders */
+
+  /* Foregrounds */
+  --fg1: #32292F;   /* headings, body (your old bg) */
+  --fg2: #5A4D56;   /* secondary text */
+  --fg3: #75676F;   /* captions, slide numbers */
+
+  /* Accents */
+  --ac1: #5762D5;   /* fills: buttons, shapes */
+  --ac2: #3B44A8;   /* text-safe accent: links, emphasis */
+  --ac3: #DDE0FA;   /* pale tint: callout backgrounds */
+
+  /* School extras (text-safe on light) */
+  --pencil: #F2C94C;   /* use as a highlighter BACKGROUND, not text */
+  --apple: #C23B33;
+  --chalk: #2E7D5B;
+  --marker: #C8621A;
+
+  --border: #D3C7CE;
+  --shadow: 0 4px 16px rgba(50, 41, 47, 0.12);
+}
