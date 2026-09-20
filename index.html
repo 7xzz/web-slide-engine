@@ -1,124 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Education: How Learning Changed the World</title>
-    <link href="./css/colors.css" rel="stylesheet">
-    <link href="./css/style.css" rel="stylesheet">
-    <script src="./index.js" defer></script>
-  </head>
-  <body>
+<html>
+  <head><title>Web Slide Engine</title></head>
+  
+  <!-- CSS links -->
+  <link hrel="./css/style.css" rel="stylesheet">
+  <link hrel="./css/modiifer.css" rel="stylesheet">
+  <link hrel="./css/transitions.css" rel="stylesheet">
 
-    <!-- 1. Title -->
-    <section class="slide" data-transition="fade">
-      <div data-content="Education: How Learning Changed the World" class="main-title"></div>
-      <div data-content="About 200 years ago, roughly 1 in 8 people could read. Today it's around 9 in 10." class="quote-title"></div>
-      <div data-spacing="12px" class="sepratared-row">
-        <div data-content="Achraf T., Islam I., Rayane B." class="sub-title"></div>
-        <div data-content="English Presentation" class="sub-title"></div>
-        <div data-content="1st Year Bachelor's" class="sub-title"></div>
-        <div data-content="09/20/26" class="sub-title"></div>
-      </div>
-    </section>
+  <body></body>
 
-    <!-- 2. So, What Is Education? -->
-    <section class="slide">
-      <div data-content="So, What Is Education?" class="slide-title"></div>
-      <div data-flip data-content="Learning knowledge, skills and values, basically how we learn to live in the world" class="normal-paragraph"></div>
-      <div data-flip data-back="Formal" data-content="school, university, diplomas" class="card center"></div>
-      <div data-flip data-back="Non-Formal" data-content="language centers, workshops, online courses" class="card center"></div>
-      <div data-flip data-back="Informal" data-content="family, friends, YouTube, everyday life" class="card center"></div>
-      <div data-fade class="nosep-container">
-        <div data-content="What it's for?" class="medium-title"></div>
-        <div data-content="growing as a person, getting a job, being an active citizen" class="normal-paragraph"></div>
-      </div>
-    </section>
-
-    <!-- 3. Timeline: A Short History of Education -->
-    <section class="slide">
-      <div data-content="A Short History of Education" class="slide-title"></div>
-      <div data-timeline>
-        <div data-year="~3000 BCE" data-title="The First Schools" data-content="Scribe schools in Sumer and Egypt." class="timeline-element"></div>
-        <div data-year="387 BCE" data-title="Plato's Academy" data-content="Plato starts the Academy in Athens." class="timeline-element"></div>
-        <div data-year="1088" data-title="The First University" data-content="University of Bologna opens (often called the oldest university)." class="timeline-element"></div>
-        <div data-year="~1440" data-title="Books for Everyone" data-content="Gutenberg's printing press makes books easier to get." class="timeline-element"></div>
-        <div data-year="1870 & 1880" data-title="Schools for All Kids" data-content="England sets up state schools, then makes attendance compulsory." class="timeline-element"></div>
-        <div data-year="1948" data-title="Education is a Right" data-content="The UN says education is a human right (Article 26)." class="timeline-element"></div>
-        <div data-year="2015" data-title="Quality for Everyone" data-content="UN Goal 4 aims for quality education for everyone." class="timeline-element"></div>
-      </div>
-    </section>
-
-    <!-- 4. Graph 1: line chart -->
-    <section class="slide">
-      <div data-content="How Many People Can Read?" class="slide-title"></div>
-      <div data-linegraph data-unit="%" data-max="100" data-xlabel="Year" data-ylabel="% of adults who can read (rough numbers)">
-        <div class="line-point" data-name="1820" data-value="12"></div>
-        <div class="line-point" data-name="1900" data-value="21"></div>
-        <div class="line-point" data-name="1950" data-value="55"></div>
-        <div class="line-point" data-name="1980" data-value="70"></div>
-        <div class="line-point" data-name="2000" data-value="82"></div>
-        <div class="line-point" data-name="2020" data-value="87"></div>
-      </div>
-      <div data-fade data-content="The biggest jump happened in the 1900s, when schools became normal for most kids." class="quote-title"></div>
-    </section>
-
-    <!-- 5. Then vs. Now: table -->
-    <section class="slide">
-      <div data-content="Then vs. Now: The Classroom" class="slide-title"></div>
-      <table data-table>
-        <thead>
-          <tr>
-            <th scope="col"><span class="visually-hidden">Aspect</span></th>
-            <th scope="col">Then</th>
-            <th scope="col">Now</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="table-row"><th scope="row">Teacher</th><td>The one with all the answers</td><td>More of a guide</td></tr>
-          <tr class="table-row"><th scope="row">Student</th><td>Sat and listened</td><td>Expected to take part</td></tr>
-          <tr class="table-row"><th scope="row">Materials</th><td>Books and a chalkboard</td><td>Books plus the internet and apps</td></tr>
-          <tr class="table-row"><th scope="row">Assessment</th><td>Mostly exams</td><td>Exams, projects and portfolios</td></tr>
-          <tr class="table-row"><th scope="row">Place</th><td>Classroom only</td><td>Classroom, online, or both</td></tr>
-        </tbody>
-      </table>
-    </section>
-
-    <!-- 6. Graph 2: bar chart -->
-    <section class="slide">
-      <div data-content="Where Education Still Struggles" class="slide-title"></div>
-      <div data-content="Millions of people (approximate)" class="sub-title caption"></div>
-      <div data-graph data-unit=" million">
-        <div class="graph-element" data-name="Kids and teens out of school worldwide (UNESCO)" data-value="250"></div>
-        <div class="graph-element" data-name="Students hit by school closures in 2020, at the peak" data-value="1600"></div>
-      </div>
-      <div data-fade data-content="Not everyone has access yet, and one crisis can shut down classrooms almost overnight." class="quote-title"></div>
-    </section>
-
-    <!-- 7. Timeline: Technology and Learning -->
-    <section class="slide">
-      <div data-content="Technology and Learning" class="slide-title"></div>
-      <div data-timeline>
-        <div data-year="~1440" data-title="Printing Press" data-content="The printing press makes books cheaper." class="timeline-element"></div>
-        <div data-year="1960s" data-title="Teaching Computers" data-content="First computer-based teaching systems (PLATO)." class="timeline-element"></div>
-        <div data-year="1990s" data-title="The Internet" data-content="The internet arrives in schools and universities." class="timeline-element"></div>
-        <div data-year="2012" data-title="MOOCs" data-content="Coursera and edX open free courses to millions." class="timeline-element"></div>
-        <div data-year="2020" data-title="Online Overnight" data-content="Schools suddenly move online." class="timeline-element"></div>
-        <div data-year="2022+" data-title="AI in Classrooms" data-content="AI tools show up, and people start arguing about cheating and creativity." class="timeline-element"></div>
-      </div>
-    </section>
-
-    <!-- 8. Wrapping Up -->
-    <section class="slide" data-transition="zoom">
-      <div data-content="Wrapping Up" class="slide-title"></div>
-      <ul class="bullets">
-        <li data-fade>Education used to be for a lucky few. Now it's seen as a right for everyone.</li>
-        <li data-fade>More people can read than ever, but millions are still left out.</li>
-        <li data-fade>Technology opens new doors, and it also brings new problems.</li>
-        <li data-fade class="callout"><b>Question for the class:</b> how will your English skills help you in your studies and your future job?</li>
-      </ul>
-      <div data-content="Sources: UNESCO, Our World in Data, UN Sustainable Development Goals, Universal Declaration of Human Rights. Figures are rounded." class="sub-title caption"></div>
-    </section>
-
-  </body>
+  <!-- JS imports -->
+  <script src="./js/engine.js"></script>
+  <script src="./js/loader.js"></script>
 </html>
