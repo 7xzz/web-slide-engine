@@ -42,7 +42,7 @@ function setupTimelines() {
 
     items.forEach((el, i) => {
       // position along the bar: 0 (start) to 1 (end), evenly spaced
-      el.style.setProperty("--p", n > 1 ? i / (n - 1) : 0.5);
+      el.style.setProperty("--p", (i + 0.5) / n);
       el.classList.add(i % 2 ? "up" : "down");
 
       const year = document.createElement("div");
