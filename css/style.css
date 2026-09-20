@@ -1,4 +1,10 @@
-* {margin:0;padding:0}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg1);
+  color: var(--fg1);
+}
 
 .visually-hidden {
   position: absolute;
@@ -9,30 +15,120 @@
   white-space: nowrap;
 }
 
+/* ---------- SLIDES ---------- */
+
 .slide {
-  display: none;
-  
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100vw;
   height: 100vh;
   background: var(--bg1);
-  color: var(--fg1)
+  color: var(--fg1);
 }
 
-.slide.active {
-  display: block;
+.slide:not(.active):not(.leaving) { display: none; }
+
+/* Wrapping row layout: full-width blocks get their own line,
+   cards and other small things sit side by side. Everything is centered. */
+.slide.active,
+.slide.leaving {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  gap: 1.5rem;
+  padding: 3rem 10vw;
+  overflow: hidden;
 }
 
 /* MODIFIERS */
 .center {
   display: flex;
   justify-content: center;
-  align-items: center
+  align-items: center;
 }
 
-/* ELEMENTS */
+/* ---------- TEXT ---------- */
+
+.main-title {
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.quote-title {
+  font-size: clamp(1.2rem, 2.2vw, 1.75rem);
+  font-style: italic;
+  line-height: 1.4;
+  color: var(--ac2);
+}
+
+.sub-title {
+  font-size: 1.05rem;
+  color: var(--fg3);
+}
+
+.medium-title {
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-weight: 700;
+}
+
+.normal-paragraph {
+  font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+  line-height: 1.5;
+  color: var(--fg2);
+}
+
+/* text blocks that sit directly in a slide take a full line */
+.slide > .main-title,
+.slide > .quote-title,
+.slide > .medium-title,
+.slide > .normal-paragraph,
+.slide > .sepratared-row,
+.slide > .separated-row,
+.slide > .nosep-container,
+.slide > .slide-title,
+.slide > .bullets,
+.slide > .caption {
+  flex: 0 0 100%;
+  text-align: center;
+}
+
+/* ---------- ROWS / CONTAINERS ---------- */
+
+/* row with dividers between items; data-spacing sets the gap */
+.sepratared-row,
+.separated-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing, 12px);
+}
+
+.sepratared-row > * + *,
+.separated-row > * + * {
+  padding-left: var(--spacing, 12px);
+  border-left: 1px solid var(--fg3);
+}
+
+/* stack with no gap between items */
+.nosep-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+/* ---------- CARD ---------- */
+
 .card {
-  width: var(--width, auto);
-  height: var(--height, auto);
+  width: var(--width, 14rem);
+  height: var(--height, 9rem);
+  font-size: 1.1rem;
+  text-align: center;
 
   background: var(--bg2);
   color: var(--fg1);
@@ -41,14 +137,75 @@
   border-radius: 12px;
 }
 
-/* GRAPH */
+/* ---------- EFFECTS ---------- */
+
+[data-fade],
+.timeline-element {
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+[data-fade].revealed,
+.timeline-element.revealed {
+  opacity: 1;
+}
+
+/* flip: starts on the back face, turns to the front on reveal */
+[data-flip] {
+  position: relative;
+  transform-style: preserve-3d;
+  transform: perspective(800px) rotateY(180deg);
+  transition: transform 0.6s;
+}
+
+[data-flip].revealed {
+  transform: perspective(800px) rotateY(360deg);
+}
+
+.card[data-flip] {
+  background: none;
+  border: none;
+}
+
+.flip-face {
+  box-sizing: border-box;
+  backface-visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  text-align: center;
+  background: var(--bg2);
+  color: var(--fg1);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.flip-front {
+  width: 100%;
+  height: 100%;
+}
+
+.flip-back {
+  position: absolute;
+  inset: 0;
+  transform: rotateY(180deg);
+}
+
+/* no data-back: the back is invisible, so the element just flips into view */
+.flip-back:empty {
+  background: none;
+  border-color: transparent;
+}
+
+/* ---------- GRAPH ---------- */
+
 [data-graph] {
   display: flex;
   gap: 1.5rem;
-  width: min(100%, 60rem);
-  height: 22rem;
-  padding-top: 2.5rem;          /* room for the value label above the tallest bar */
-  box-sizing: border-box;
+  width: min(100%, calc(var(--n, 4) * 14rem));
+  height: 20rem;
+  padding-top: 2.5rem;
 }
 
 .graph-element {
@@ -61,7 +218,7 @@
 .graph-track {
   position: relative;
   flex: 1;
-  border-bottom: 2px solid var(--bg3);   /* baseline */
+  border-bottom: 2px solid var(--bg3);
 }
 
 .graph-bar {
@@ -71,14 +228,14 @@
   bottom: 0;
   height: 0;
   border-radius: 8px 8px 0 0;
-  background: var(--border);
-  box-shadow: 0 0 0 var(--border);
+  background: var(--ac1);
+  box-shadow: 0 0 0 var(--ac1);
   transition: height 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.8s;
 }
 
 .graph-element.revealed .graph-bar {
   height: calc(var(--h, 0) * 100%);
-  box-shadow: 0 0 20px var(--border);
+  box-shadow: 0 0 20px var(--ac1);
 }
 
 .graph-value {
@@ -89,7 +246,7 @@
   margin-bottom: 0.4rem;
   text-align: center;
   font-weight: 700;
-  font-variant-numeric: tabular-nums;   /* digits keep the same width, so no jitter while counting */
+  font-variant-numeric: tabular-nums;
   opacity: 0;
   transition: opacity 0.2s;
 }
@@ -103,15 +260,16 @@
   margin-top: 0.6rem;
   text-align: center;
   font-size: 0.9rem;
-  opacity: 0.75;
+  color: var(--fg2);
 }
 
-/* TIMELINE */
+/* ---------- TIMELINE ---------- */
+
 [data-timeline] {
-  --pad: 6rem;               /* space left/right of the bar */
+  --pad: 6rem;
   position: relative;
-  width: min(100%, 72rem);
-  height: 22rem;
+  width: min(100%, 80rem);
+  height: 26rem;
 }
 
 .timeline-bar {
@@ -122,16 +280,15 @@
   height: 4px;
   border-radius: 2px;
   transform: translateY(-50%);
-  background: var(--bg3);   /* was var(--bg2), too close to the slide color */
+  background: var(--bg3);
 }
 
 .timeline-fill {
   width: calc(var(--progress, 0) * 100%);
   height: 100%;
   border-radius: inherit;
-  background: var(--border);
-  /* glow gets bigger the further along you are */
-  box-shadow: 0 0 calc(6px + 20px * var(--progress, 0)) var(--border);
+  background: var(--ac1);
+  box-shadow: 0 0 calc(6px + 20px * var(--progress, 0)) var(--ac1);
   transition: width 0.6s ease, box-shadow 0.6s ease;
 }
 
@@ -142,8 +299,8 @@
   width: 18px;
   height: 18px;
   border-radius: 50%;
-  background: var(--fg1);
-  box-shadow: 0 0 0 4px var(--border), 0 0 18px 6px var(--border);
+  background: var(--bg1);
+  box-shadow: 0 0 0 4px var(--ac1), 0 0 18px 6px var(--ac1);
   transform: translate(-50%, -50%);
   transition: left 0.6s ease;
   animation: timeline-pulse 2s ease-in-out infinite;
@@ -151,14 +308,14 @@
 }
 
 @keyframes timeline-pulse {
-  50% { box-shadow: 0 0 0 4px var(--border), 0 0 28px 10px var(--border); }
+  50% { box-shadow: 0 0 0 4px var(--ac1), 0 0 28px 10px var(--ac1); }
 }
 
 [data-timeline] .timeline-element {
-  --gap: 1.75rem;            /* distance from the bar */
+  --gap: 1.75rem;
   position: absolute;
   left: calc(var(--pad) + (100% - 2 * var(--pad)) * var(--p));
-  width: 12rem;
+  width: 13rem;
   text-align: center;
   z-index: 1;
   transition: opacity 0.5s, transform 0.5s;
@@ -183,12 +340,11 @@
   content: "";
   position: absolute;
   left: 50%;
-  box-sizing: border-box;
   width: 12px;
   height: 12px;
   border-radius: 50%;
   background: var(--bg1);
-  border: 2px solid var(--border);
+  border: 2px solid var(--ac1);
 }
 .timeline-element.down::before { top: calc(var(--gap) * -1);    transform: translate(-50%, -50%); }
 .timeline-element.up::before   { bottom: calc(var(--gap) * -1); transform: translate(-50%, 50%); }
@@ -196,58 +352,241 @@
 .timeline-year {
   font-size: 1.75rem;
   font-weight: 700;
-  color: var(--border);
-  text-shadow: 0 0 12px var(--border);
+  color: var(--ac2);
 }
 .timeline-title   { margin-top: 0.25rem; font-weight: 600; }
-.timeline-content { margin-top: 0.25rem; font-size: 0.9rem; opacity: 0.75; }
-/* EFFECTS */
+.timeline-content { margin-top: 0.25rem; font-size: 0.9rem; color: var(--fg2); }
 
-[data-fade],
-.timeline-element {
-  opacity: 0;
-  transition: opacity 0.5s;
+/* ---------- SLIDE TITLE, CAPTION, BULLETS ---------- */
+
+.slide-title {
+  font-size: clamp(1.75rem, 3.6vw, 2.75rem);
+  font-weight: 800;
+  line-height: 1.15;
 }
 
-[data-fade].revealed,
-.timeline-element.revealed {
-  opacity: 1;
+.slide-title::after {
+  content: "";
+  display: block;
+  width: 3.5rem;
+  height: 4px;
+  margin: 0.6rem auto 0;
+  border-radius: 2px;
+  background: var(--ac1);
 }
 
-[data-flip] {
-  position: relative;
-  transform-style: preserve-3d;
-  transform: perspective(800px) rotateY(180deg);
-  transition: transform 0.6s;
-}
+.caption { font-size: 0.95rem; }
 
-[data-flip].revealed {
-  transform: perspective(800px) rotateY(360deg);
-}
-
-.card[data-flip] {
-  background: none;
-  border: none;
-}
-
-.flip-face {
-  box-sizing: border-box;
-  backface-visibility: hidden;
+.bullets {
+  list-style: none;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  background: var(--bg2);
-  color: var(--fg1);
-  border: 1px solid var(--border);
-  border-radius: 12px;
+  gap: 1.25rem;
+  font-size: clamp(1.2rem, 2.2vw, 1.75rem);
+  line-height: 1.4;
 }
 
-.flip-front {
+.bullets li {
+  width: min(100%, 46rem);
+  padding-left: 1rem;
+  border-left: 4px solid var(--ac1);
+  text-align: left;
+}
+
+.bullets .callout {
+  padding: 1rem 1.25rem;
+  background: var(--ac3);
+  border-left-color: var(--ac2);
+  border-radius: 10px;
+}
+
+.bullets .callout b { color: var(--ac2); }
+
+/* ---------- TABLE (rows reveal one by one) ---------- */
+
+[data-table] {
+  width: min(100%, 56rem);
+  border-collapse: collapse;
+  font-size: clamp(1rem, 1.6vw, 1.3rem);
+}
+
+[data-table] th,
+[data-table] td {
+  padding: 0.85rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--bg3);
+}
+
+[data-table] thead th {
+  color: var(--ac2);
+  font-size: 1.1em;
+  border-bottom: 2px solid var(--ac1);
+}
+
+[data-table] tbody th { font-weight: 700; white-space: nowrap; }
+[data-table] td { color: var(--fg2); }
+
+.table-row { opacity: 0; transition: opacity 0.5s; }
+.table-row.revealed { opacity: 1; }
+
+/* ---------- LINE GRAPH ---------- */
+
+[data-linegraph] { width: min(100%, 48rem); }
+[data-linegraph] svg { display: block; width: 100%; height: auto; overflow: visible; }
+
+.line-point { display: none; }   /* only used as data + steps */
+
+.lg-grid  { stroke: var(--bg3); stroke-width: 1; }
+.lg-tick  { fill: var(--fg2); font-size: 14px; text-anchor: end; }
+.lg-name  { fill: var(--fg2); font-size: 14px; text-anchor: middle; }
+.lg-axis  { fill: var(--fg3); font-size: 14px; text-anchor: middle; }
+
+.line-seg {
+  fill: none;
+  stroke: var(--ac1);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-dasharray: 1 2;        /* pathLength is 1, so this draws the whole segment */
+  stroke-dashoffset: 1;         /* fully hidden */
+  transition: stroke-dashoffset 0.6s ease;
+  filter: drop-shadow(0 0 6px var(--ac1));
+}
+.line-seg.on { stroke-dashoffset: 0; }
+
+.line-dot {
+  fill: var(--bg1);
+  stroke: var(--ac1);
+  stroke-width: 3;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.line-dot.on { opacity: 1; transition-delay: 0.4s; }
+
+.line-value {
+  fill: var(--ac2);
+  font-size: 16px;
+  font-weight: 700;
+  text-anchor: middle;
+  paint-order: stroke;
+  stroke: var(--bg1);
+  stroke-width: 4px;
+  stroke-linejoin: round;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.line-value.on { opacity: 1; transition: opacity 0.5s; }
+
+/* ---------- PAGE ---------- */
+
+html, body { height: 100%; overflow: hidden; }
+
+/* ---------- SLIDE TRANSITIONS ---------- */
+/* Pick one per slide with data-transition="slide | fade | zoom | up" (default: slide) */
+
+.slide.active  { z-index: 2; }
+.slide.leaving { z-index: 1; }
+
+@keyframes t-in {
+  from { opacity: 0; transform: var(--in-t, none); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes t-out {
+  from { opacity: 1; transform: none; }
+  to   { opacity: 0; transform: var(--out-t, none); }
+}
+
+.slide.enter-next,
+.slide.enter-prev,
+.slide.enter-start { animation: t-in 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+
+.slide.leave-next,
+.slide.leave-prev  { animation: t-out 0.5s cubic-bezier(0.4, 0, 0.2, 1) both; }
+
+/* default: slide sideways (direction follows the arrow you pressed) */
+.slide.enter-next { --in-t: translateX(8%); }
+.slide.enter-prev { --in-t: translateX(-8%); }
+.slide.leave-next { --out-t: translateX(-8%); }
+.slide.leave-prev { --out-t: translateX(8%); }
+.slide.enter-start { --in-t: none; }
+
+/* fade: plain cross-fade */
+.slide[data-transition="fade"].enter-next,
+.slide[data-transition="fade"].enter-prev { --in-t: none; }
+.slide[data-transition="fade"].leave-next,
+.slide[data-transition="fade"].leave-prev { --out-t: none; }
+
+/* zoom: forward zooms in, backward zooms out */
+.slide[data-transition="zoom"].enter-next { --in-t: scale(0.92); }
+.slide[data-transition="zoom"].enter-prev { --in-t: scale(1.06); }
+.slide[data-transition="zoom"].leave-next { --out-t: scale(1.06); }
+.slide[data-transition="zoom"].leave-prev { --out-t: scale(0.92); }
+
+/* up: slide vertically */
+.slide[data-transition="up"].enter-next { --in-t: translateY(8%); }
+.slide[data-transition="up"].enter-prev { --in-t: translateY(-8%); }
+.slide[data-transition="up"].leave-next { --out-t: translateY(-8%); }
+.slide[data-transition="up"].leave-prev { --out-t: translateY(8%); }
+
+/* everything that is not a step rises in one after another (--i is set by JS).
+   "backwards" only holds the start state during the delay, so steps keep working. */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(24px); }
+}
+
+.slide.enter-next  > :not([data-fade]):not([data-flip]),
+.slide.enter-prev  > :not([data-fade]):not([data-flip]),
+.slide.enter-start > :not([data-fade]):not([data-flip]) {
+  animation: rise 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+  animation-delay: calc(var(--i, 0) * 90ms + 150ms);
+}
+
+/* fade steps also rise a little */
+[data-fade] {
+  transform: translateY(14px);
+  transition: opacity 0.5s, transform 0.5s;
+}
+[data-fade].revealed { transform: none; }
+
+/* ---------- PROGRESS BAR + COUNTER ---------- */
+
+.deck-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--bg3);
+  z-index: 20;
+}
+
+.deck-progress-bar {
   height: 100%;
+  width: calc(var(--deck, 0) * 100%);
+  background: var(--ac1);
+  box-shadow: 0 0 10px var(--ac1);
+  transition: width 0.5s ease;
 }
 
-.flip-back {
-  position: absolute;
-  inset: 0;
-  transform: rotateY(180deg);
+.deck-counter {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 1rem;
+  z-index: 20;
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--fg3);
+}
+
+/* ---------- REDUCED MOTION ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
+  }
 }
