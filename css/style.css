@@ -41,6 +41,71 @@
   border-radius: 12px;
 }
 
+/* GRAPH */
+[data-graph] {
+  display: flex;
+  gap: 1.5rem;
+  width: min(100%, 60rem);
+  height: 22rem;
+  padding-top: 2.5rem;          /* room for the value label above the tallest bar */
+  box-sizing: border-box;
+}
+
+.graph-element {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.graph-track {
+  position: relative;
+  flex: 1;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);   /* baseline */
+}
+
+.graph-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 0;
+  border-radius: 8px 8px 0 0;
+  background: var(--border);
+  box-shadow: 0 0 0 var(--border);
+  transition: height 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.8s;
+}
+
+.graph-element.revealed .graph-bar {
+  height: calc(var(--h, 0) * 100%);
+  box-shadow: 0 0 20px var(--border);
+}
+
+.graph-value {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  right: 0;
+  margin-bottom: 0.4rem;
+  text-align: center;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;   /* digits keep the same width, so no jitter while counting */
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.graph-element.revealed .graph-value {
+  opacity: 1;
+  transition: opacity 0.5s;
+}
+
+.graph-name {
+  margin-top: 0.6rem;
+  text-align: center;
+  font-size: 0.9rem;
+  opacity: 0.75;
+}
+
 /* TIMELINE */
 [data-timeline] {
   --pad: 6rem;               /* space left/right of the bar */
